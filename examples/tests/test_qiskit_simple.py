@@ -18,6 +18,7 @@ qc.measure_all()
 
 print("Default number of shots: 1024")
 run_options = qfw_reservation_options()
+qc = qfw_backend.compile(qc, 'mqt')
 job = qfw_backend.run(qc, **run_options)
 result = job.result()
 counts = result.get_counts(qc)

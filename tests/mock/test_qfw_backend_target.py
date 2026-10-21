@@ -551,6 +551,26 @@ def test_an_explicit_target_wins_over_the_device(monkeypatch):
 	assert telemetry.calls == []
 
 
+def test_mqt_compile_uses_the_backend_target(monkeypatch):
+	import qfw_qiskit.qfw_simulator as qfw_simulator
+
+	explicit = object()
+	backend = _backend(monkeypatch, target=explicit)
+	circuit = object()
+	calls = []
+
+	def compile_with_mqt(circuits, target, **kwargs):
+		calls.append((circuits, target, kwargs))
+		return "compiled"
+
+	monkeypatch.setattr(qfw_simulator, "mqt_compile", compile_with_mqt)
+
+	result = backend.compile(circuit, compiler="mqt", optimization_level=2)
+
+	assert result == "compiled"
+	assert calls == [(circuit, explicit, {"optimization_level": 2})]
+
+
 def test_configuration_reflects_the_device_target(monkeypatch):
 	telemetry = FakeTelemetryAPI(
 		FAKE_IQM_INFO, FAKE_IQM_DEVICE, FAKE_IQM_COUPLING,
