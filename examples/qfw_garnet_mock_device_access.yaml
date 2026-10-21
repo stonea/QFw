@@ -1,0 +1,21 @@
+# Device access for running the shim-garnet-mock local service without root.
+# Copy this file and garnet-mock-creds.json (below) into a directory you own,
+# then point QFW_EXAMPLE_DEVICE_ACCESS_CONFIG at the copy:
+#
+#   export QFW_EXAMPLE_DEVICE_ACCESS_CONFIG=$HOME/garnet-mock-device-access.yaml
+#   ./qfw_qiskit_simple.sh --backend shim 2
+#
+# garnet-mock-creds.json holds your IQM Resonance API key, so keep it 0600:
+#
+#   {"users": {"<your user>": {"enabled": true, "devices": {
+#     "iqm-garnet-mock": {"enabled": true, "api_key": "<token>"}}}}}
+
+qpus:
+  iqm-garnet-mock:
+    provider: iqm
+    # IQM Resonance's noiseless mock simulator for the 20-qubit Garnet device.
+    # This is the alias Resonance expects, not the QFw device id above it.
+    provider-device-id: "garnet:mock"
+    url: https://resonance.iqm.tech
+    # Relative to this file.
+    credential-db: garnet-mock-creds.json

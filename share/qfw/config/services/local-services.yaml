@@ -60,3 +60,21 @@ services:
     device-id: fake-iqm-20q
     provider-launch:
       type: internal
+
+  - name: shim-garnet-mock
+    # credential-mode: required means the process launcher always resolves
+    # device access from site.yaml's service.device-access-config
+    # (/etc/openqse/qfw/device/device-access.yaml, root:root 0600), even in
+    # --service-mode local. A non-root user sets
+    # QFW_EXAMPLE_DEVICE_ACCESS_CONFIG to a device-access file of their own
+    # (see examples/qfw_garnet_mock_device_access.yaml).
+    credential-mode: required
+    module: svc_lib_qpm
+    load-modules: svc_lib_qpm,api_launcher
+    agent-prefix: qpm_shim_garnet_mock
+    target: group1-head
+    assigned-hosts: group1
+    assigned-hosts-env: QFW_QPM_ASSIGNED_HOSTS
+    device-id: iqm-garnet-mock
+    provider-launch:
+      type: qrmi-qdmi
