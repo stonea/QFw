@@ -247,6 +247,7 @@ install(DIRECTORY examples/
 		PATTERN "*.py"
 		PATTERN "*.yaml"
 		PATTERN "*.yml"
+		PATTERN "*.json.example"
 		PATTERN "__pycache__" EXCLUDE)
 install(PROGRAMS
 	examples/qfw_chem_app.sh
